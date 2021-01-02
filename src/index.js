@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import "./index.css";
+// import "./index.css";
 
 const listOfBuffers = ["C7", "2B", "3J", "1C", "BD", "7A", "55", "OP"];
 
@@ -72,46 +72,98 @@ export default function QuickHackBreach({ bufferWidthAndHeight = 5, amountToCrac
 	}
 
 	return (
-		<div className="quickhack">
-			<div className="main">
-				{
-					randomBuffers.map((bufferRow, i) => (
-						<div key={i} className={`row ${(xOrY.posGraph == "x" && xOrY.pos.x == i) ? "highlighted" : ""}`}>
-							{
-								bufferRow.map(( buffer, j ) => (
-									<div key={`${buffer}-${i}-${j}`} className={`col ${( xOrY.posGraph == "y" &&  xOrY.pos.y == j ) ? "highlighted" : ""}`}>
-										<div onClick={((xOrY.posGraph == "y" && xOrY.pos.y == j) || (xOrY.posGraph == "x" && xOrY.pos.x == i)) ? () => selectBuffer(buffer, i, j) : () => null}>
-											{buffer}
-										</div>
-									</div>
-								))
-							}
-						</div>
-					))
-				}
-			</div>
-			<div className="to-solve">
-				{
-					currentLives > 0 ? 
-						<>
-							{
-								hacked ?
-									<p>DataMine Successfully Uploaded</p>
-									:
-									<p>Lives: {currentLives}</p>
-							}
-						</>
-					:
-					<p>DataMine: Failed</p>
-				}
-				<ul style={{ listStyleType: "none" }}>
+    <>
+      <style jsx>
+        {`
+					.quickhack{
+						display: flex;
+					}
+
+					.main {
+						background-color: lightgray;
+					}
+
+					.row{
+						display: flex;
+					}
+
+					.col{
+						flex-direction: column;
+						padding: 5px;
+					}
+
+					.row.highlighted, .col.highlighted {
+						background-color: white;
+					}
+
+					.col div, .code {
+						padding: 10px;
+						width: 30px;
+						height: 30px;
+						background-color: transparent;
+						border: 2px solid transparent;
+						text-align: center;
+					}
+
+					.code {
+						margin-bottom: 2px;
+					}
+
+					.code.solved{
+						border-color: black;
+					}
+
+					p {
+						padding-left: 40px;
+					}
+
+					.col.highlighted div:hover, .row.highlighted div:hover  {
+						border-color: black;
+						cursor: pointer;
+					}
+			`}
+      </style>
+			<div className="quickhack">
+				<div className="main">
 					{
-						codes.map(buffer => (
-							<li className={`code ${selectedBuffers.findIndex(b => buffer == b) !== -1 ? "solved": "unsolved"}`} key={buffer}>{buffer}</li>
+						randomBuffers.map((bufferRow, i) => (
+							<div key={i} className={`row ${(xOrY.posGraph == "x" && xOrY.pos.x == i) ? "highlighted" : ""}`}>
+								{
+									bufferRow.map(( buffer, j ) => (
+										<div key={`${buffer}-${i}-${j}`} className={`col ${( xOrY.posGraph == "y" &&  xOrY.pos.y == j ) ? "highlighted" : ""}`}>
+											<div onClick={((xOrY.posGraph == "y" && xOrY.pos.y == j) || (xOrY.posGraph == "x" && xOrY.pos.x == i)) ? () => selectBuffer(buffer, i, j) : () => null}>
+												{buffer}
+											</div>
+										</div>
+									))
+								}
+							</div>
 						))
 					}
-				</ul>
+				</div>
+				<div className="to-solve">
+					{
+						currentLives > 0 ?
+							<>
+								{
+									hacked ?
+										<p>DataMine Successfully Uploaded</p>
+										:
+										<p>Lives: {currentLives}</p>
+								}
+							</>
+						:
+						<p>DataMine: Failed</p>
+					}
+					<ul style={{ listStyleType: "none" }}>
+						{
+							codes.map(buffer => (
+								<li className={`code ${selectedBuffers.findIndex(b => buffer == b) !== -1 ? "solved": "unsolved"}`} key={buffer}>{buffer}</li>
+							))
+						}
+					</ul>
+				</div>
 			</div>
-		</div>
+    </>
 	)
 }
