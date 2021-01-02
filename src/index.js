@@ -20,7 +20,7 @@ const randomCodeToCrack = (size) => {
 	return listOfBuffers.map((a) => ({sort: Math.random(), value: a})).sort((a, b) => a.sort - b.sort).map((a) => a.value).slice(0, size);
 }
 
-export default function QuickHackBreach({ bufferWidthAndHeight = 5, amountToCrack = 3 }){
+export default function QuickHackBreach({ bufferWidthAndHeight = 5, amountToCrack = 3, solvedFunction }){
 	const randomizedGraphOfBuffers = randomizedBuffers(bufferWidthAndHeight);
 	const startingRowOrCol = Math.floor(Math.random() * 1) + 0;
 	const startingPos = Math.floor(Math.random() * bufferWidthAndHeight) + 0;
@@ -49,6 +49,7 @@ export default function QuickHackBreach({ bufferWidthAndHeight = 5, amountToCrac
 		const intersection = codes.filter(c => selectedBuffers.includes(c));
 		if((intersection.length !== 0 && codes.length !== 0) && intersection.length == codes.length){
 			setHackstate(true);
+      solvedFunction(true);
 		}
 	}, [selectedBuffers])
 
@@ -69,6 +70,7 @@ export default function QuickHackBreach({ bufferWidthAndHeight = 5, amountToCrac
 			}
 		});
 	}
+
 	return (
 		<div className="quickhack">
 			<div className="main">
