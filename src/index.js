@@ -69,7 +69,6 @@ export default function QuickHackBreach({ bufferWidthAndHeight = 5, amountToCrac
 			}
 		});
 	}
-
 	return (
 		<div className="quickhack">
 			<div className="main">
